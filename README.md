@@ -62,6 +62,6 @@ $python main_program.py
 
 
 ### 問い合わせ
-要望・改善案・不具合報告等お待ちしてます。
-s_flashback@yahoo.co.jp
+要望・改善案・不具合報告等お待ちしてます。  
+s_flashback@yahoo.co.jp  
 twitter: @KENGo0o0
