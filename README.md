@@ -15,6 +15,9 @@
 
 そのスコア調整の難しさから、理論値以外は想定していません。
 
+## デモ
+![demogif](https://raw.githubusercontent.com/keng000/Groove_Coaster_Calc/master/groove.gif)  
+
 ## 要件
 Python 2.7.12
 
