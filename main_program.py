@@ -12,12 +12,17 @@ True_or_False = LOGIN.check_cookie()
 
 if True_or_False:
     print "ログイン成功しました"
-    print "現在の全曲スコアを集計します....."
+    YN = raw_input("スコア更新しますか？(しないなら何も打たずにenter):")
 
     LOGIN.update_music_id_list()
     LOGIN.prepare_dictionary()
-    LOGIN.get_score_list()
 
+    if YN:
+        print "現在の全曲スコアを集計します....."
+        LOGIN.get_score_list()
+    else:
+        LOGIN.import_file()
+        
     print ":"
 
     LOGIN.get_total_score()

@@ -23,7 +23,8 @@ class GROOVE_LPSOLVE():
         #for update_music_id_list
         self.ID_LIST = []
 
-        #for score_list
+        #for get_score_list
+        self.score_list_name = 'score_list.csv'
         self.total = 0
         self.music_id_list = []
         self.score_lack = []
@@ -116,7 +117,7 @@ class GROOVE_LPSOLVE():
 
     def get_score_list(self):
         # 先にupdate_music_id_list()を実行すること(ID_LISTの準備)
-        p = open('score_list.txt','w')
+        p = open(self.score_list_name,'w')
 
         for one_id in self.ID_LIST:
             url = 'https://mypage.groovecoaster.jp/sp/json/music_detail.php?music_id=' + str(one_id)
@@ -142,32 +143,45 @@ class GROOVE_LPSOLVE():
                 print retval
                 return retval
 
-            decode_ret = json.loads(retval)
-            difficult_list = ['simple_result_data','normal_result_data','hard_result_data','extra_result_data']
-            if decode_ret['music_detail']['ex_flag'] == 1:
-                cycle = 4
-            else:
-                cycle = 3
+            # 取得したjson<str> を保存
+            p.write(retval + '\n')
 
-            p.write(str(one_id) + ',')
-            for difficult in range(cycle):
-                if decode_ret['music_detail'][difficult_list[difficult]]:
-                    score = decode_ret['music_detail'][difficult_list[difficult]]['score']
-                    self.total += score
-                    p.write(str(score) + ',')
-                    if score == 1000000:
-                        continue
-                    else:
-                        self.score_lack.append(1000000-score)
-                        self.music_id_list.append(one_id)
-                        self.difficult_weight.append((1+difficult)*(1+difficult))
+            # jsonを読み込む、self.score_lack, music_id_list, difficult_weight に対応する値格納
+            self.read_music_data_json(retval)
+        p.close()
+
+    def import_file(self):
+        f = open(self.score_list_name,'r')
+        for line in f:
+            line = line.rstrip()
+            self.read_music_data_json(line)
+        f.close()
+
+    def read_music_data_json(self,json_str):
+        decode_ret = json.loads(json_str)
+        difficult_list = ['simple_result_data','normal_result_data','hard_result_data','extra_result_data']
+        if decode_ret['music_detail']['ex_flag'] == 1:
+            cycle = 4
+        else:
+            cycle = 3
+
+        one_id = int(decode_ret['music_detail']['music_id'])
+
+        for difficult in range(cycle):
+            if decode_ret['music_detail'][difficult_list[difficult]]:
+                score = decode_ret['music_detail'][difficult_list[difficult]]['score']
+
+                if score == 1000000:
+                    continue
                 else:
-                    p.write(',')
-                    self.score_lack.append(1000000)
+                    self.score_lack.append(1000000-score)
                     self.music_id_list.append(one_id)
                     self.difficult_weight.append((1+difficult)*(1+difficult))
-            p.write('\n')
-        p.close()
+            else:
+
+                self.score_lack.append(1000000)
+                self.music_id_list.append(one_id)
+                self.difficult_weight.append((1+difficult)*(1+difficult))
 
     def prepare_dictionary(self):
         # 先にupdate_music_id_list()を実行すること(id_list.txtの準備)
