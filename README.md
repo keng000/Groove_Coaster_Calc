@@ -19,6 +19,8 @@
 ![demogif](https://raw.githubusercontent.com/keng000/Groove_Coaster_Calc/master/groove.gif)  
 
 ## 要件
+Mac, Linux
+
 Python 2.7.12
 
 python モジュール  
