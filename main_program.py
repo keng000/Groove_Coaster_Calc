@@ -22,12 +22,12 @@ if True_or_False:
         LOGIN.get_score_list()
     else:
         LOGIN.import_file()
-        
+
     print ":"
 
     LOGIN.get_total_score()
 
-    print "現在のトータルスコアは " + "{:,d}".format(LOGIN.total) + "点です。"
+    print "現在のトータルスコアは " + "{:,d}".format(LOGIN.total_score) + "点です。"
 
     aim = int(raw_input("目指す点数は?: "))
 

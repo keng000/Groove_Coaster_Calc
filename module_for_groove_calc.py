@@ -25,7 +25,7 @@ class GROOVE_LPSOLVE():
 
         #for get_score_list
         self.score_list_name = 'score_list.csv'
-        self.total = 0
+        self.total_score = 0
         self.music_id_list = []
         self.score_lack = []
         self.difficult_weight = []
@@ -112,7 +112,7 @@ class GROOVE_LPSOLVE():
             return 0
 
         decode_ret = json.loads(retval)
-        self.total = int(decode_ret['player_data']['total_score'])
+        self.total_score = int(decode_ret['player_data']['total_score'])
         # GET player total score ~~ end
 
     def get_score_list(self):
@@ -137,6 +137,7 @@ class GROOVE_LPSOLVE():
                 else:
                     print '!error! HTTP Status %d'%http_code
                     return str(http_code)
+
             except Exception as e:
                 retval = str(e)
                 print '!error! Cannot access to the music data(ID:%d)'%one_id
@@ -192,7 +193,7 @@ class GROOVE_LPSOLVE():
 
     def solve_LP(self,aim):
         # 先に get_score_list(), get_total_score(), prepare_dictionary()を実行後に実行すること
-        diff = aim - self.total
+        diff = aim - self.total_score
         if diff <= 0:
             print u'現在の得点より高い目標点を設定してください'
             sys.exit()
