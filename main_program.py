@@ -1,8 +1,22 @@
 # -*- coding: utf-8 -*-
 from module_for_groove_calc import *
 
-LOGIN_ID = raw_input("NESiCA: ")
-PASS = raw_input("パスワード: ")
+keta = 13
+
+while True:
+    while True:
+        LOGIN_ID = raw_input("NESiCA: ")
+        if len(LOGIN_ID) == keta:
+            break
+        else:
+            print "IDは%d桁です"%keta
+    PASS = raw_input("パスワード: ")
+
+    flag = raw_input("OK?(y/n):")
+    if flag == 'y':
+        break
+    else:
+        print ""
 
 print ":"
 
@@ -12,7 +26,7 @@ True_or_False = LOGIN.check_cookie()
 
 if True_or_False:
     print "ログイン成功しました"
-    YN = raw_input("スコア更新しますか？(しないなら何も打たずにenter):")
+    YN = raw_input("スコア更新しますか？(更新する場合、何か入力後enter):")
 
     LOGIN.update_music_id_list()
     LOGIN.prepare_dictionary()
